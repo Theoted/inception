@@ -2,8 +2,34 @@ version: '3.9'
 
 services:
   nginx:
-    build:
-      context: ./requirements/nginx
-    image: nginx
+    container_name: nginx-container
+    build: requirements/nginx
     ports:
-      - '8080:8080'
+      - 80:80
+    depends_on:
+      - wordpress
+    volumes:
+      - wp_statics:/var/www/html/wordpress
+    networks:
+      - inception
+  
+  wordpress:
+    container_name: wp-container
+    build: requirements/wordpress
+    networks:
+      - inception
+    volumes:
+      - wp_statics:/var/www/html/wordpress
+
+
+networks:
+  inception:
+    name: inception-network
+
+volumes:
+  wp_statics:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/srv/wordpress'
