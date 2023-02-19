@@ -8,7 +8,8 @@ RUN apt-get update -y \
 &&  apt-get install wget -y
 
 # Install Php
-RUN apt-get install -y php7.3 php7.3-fpm 
+RUN apt-get install -y php 
+RUN apt-get install -y php-fpm 
 RUN wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
 
 # Install WordPress

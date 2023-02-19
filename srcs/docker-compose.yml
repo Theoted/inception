@@ -4,6 +4,7 @@ services:
   nginx:
     container_name: nginx-container
     build: requirements/nginx
+    restart: always
     ports:
       - 80:80
     depends_on:
@@ -16,15 +17,24 @@ services:
   wordpress:
     container_name: wp-container
     build: requirements/wordpress
+    # depends_on:
+    #   - mariadb
+    restart: always
     networks:
       - inception
     volumes:
       - wp_statics:/var/www/html/wordpress
 
+  # mariadb:
+  #   container_name: mariadb-container
+  #   build: requirements/mariadb
+  #   networks:
+  #     - inception
+  #   volumes:
+  #     - database:/var/lib/mysql
 
 networks:
   inception:
-    name: inception-network
 
 volumes:
   wp_statics:
@@ -33,3 +43,10 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/srv/wordpress'
+
+  database:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/srv/mariadb'
