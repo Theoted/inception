@@ -4,7 +4,6 @@ if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
 	# wait for mariadb to be configured and ready to use
 	while ! mariadb --host=$DB_HOST --user=$DB_USER --password=$DB_USER_PASSWORD $DB_DATABASE &> /dev/null; do
 		echo "Waiting on mariadb config"
-        echo $DB_HOST
 		sleep 2
 	done
 

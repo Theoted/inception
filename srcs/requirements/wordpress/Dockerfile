@@ -35,5 +35,5 @@ EXPOSE 9000
 # Install dumb-init
 RUN apt-get install -y dumb-init
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["sh", "./entrypoint.sh"]
+# ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]
