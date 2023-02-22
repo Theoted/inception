@@ -20,6 +20,8 @@ EXPOSE 3306
 COPY ./tools/entrypoint.sh ./
 RUN chmod 777 ./entrypoint.sh
 
+COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["sh", "./entrypoint.sh"]
 
