@@ -1,17 +1,12 @@
 #!/usr/bin
 
-# if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
-# 	wait for mariadb to be configured and ready to use
-# 	while ! mariadb --host=$DB_HOST --user=$DB_USER --password=$DB_USER_PASSWORD $DB_DATABASE &> /dev/null; do
-# 		echo "Waiting on mariadb config"
-# 		sleep 2
-# 	done
+if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
 
-# fi
+while ! mariadb --host=$DB_HOST --user=$DB_USER --password=$DB_USER_PASSWORD -e "SHOW DATABASES" | grep $DB_DATABASE; do
+		echo "Waiting on mariadb config"
+		sleep 2
+	done
 
-sleep 10
-
-if [ ! -d /var/www/html/wordpress/wp-config.php ]; then
 	mkdir /var/www/html/wordpress
 	cd /var/www/html/wordpress
 
@@ -19,7 +14,10 @@ if [ ! -d /var/www/html/wordpress/wp-config.php ]; then
 
 	wp config create --dbname=$DB_DATABASE --dbhost=$DB_HOST --dbuser=$DB_USER --dbpass=$DB_USER_PASSWORD --locale=ro_RO --allow-root
 
-	wp core install --url=localhost --admin_user=$DB_USER --admin_password=$DB_USER_PASSWORD --allow-root
+	wp core install --url=localhost --admin_user=$DB_USER --admin_password=$DB_USER_PASSWORD --title=inception --admin_email=$WP_ADMIN_EMAIL --allow-root
+
+	chown -R www-data:www-data *
+	chmod -R 755 *
 
 fi
 
