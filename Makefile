@@ -17,9 +17,6 @@ down:
 build:	volumes
 				$(COMPOSE) build --parallel
 
-create:	build
-			  $(COMPOSE) create
-
 ps:
 			  $(COMPOSE) ps --all
 
@@ -32,10 +29,6 @@ exec-wp:
 exec-nginx:
 	docker exec -it nginx-container bash
 
-start:
-				$(COMPOSE) start
-restart:
-				$(COMPOSE) restart
 stop:
 			  $(COMPOSE) stop
 clean:
