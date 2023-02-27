@@ -2,23 +2,20 @@ NAME		= inception
 
 USER		= tdeville
 
-COMPOSE = docker-compose -f srcs/docker-compose.yml -p $(NAME)
+COMPOSE = docker-compose -f srcs/docker-compose.yml
 
 all:		up
 
 re:			fclean all
 
-up:			build
-				$(COMPOSE) up --detach
+up:				volumes
+				$(COMPOSE) up -d --build
 
 down:
 				$(COMPOSE) down
 
-build:	volumes
-				$(COMPOSE) build --parallel
-
 ps:
-			  $(COMPOSE) ps --all
+				$(COMPOSE) ps --all
 
 exec-mariadb:
 	docker exec -it mariadb-container bash
@@ -29,6 +26,13 @@ exec-wp:
 exec-nginx:
 	docker exec -it nginx-container bash
 
+volumes:	
+			test -f /home/$(USER)/data/database || mkdir /home/$(USER)/data/database && \
+			chmod 777 /home/$(USER)/data/database
+			test -f /home/$(USER)/data/wordpress || mkdir /home/$(USER)/data/wordpress && \
+			chmod 777 /home/$(USER)/data/wordpress
+			
+
 stop:
 			  $(COMPOSE) stop
 clean:
@@ -36,8 +40,5 @@ clean:
 fclean:
 			  docker-compose --project-directory=srcs down --rmi all --volumes
 			  sudo rm -rf /home/$(USER)/data/*
-volumes:
-			  @mkdir -p /home/$(USER)/data/wordpress
-			  @mkdir -p /home/$(USER)/data/database
 
 .PHONY: all re up down build create ps exec start restart stop clean fclean
