@@ -12,11 +12,6 @@ RUN apt-get update -y \
 RUN apt-get install php php-mysql php-fpm php-curl php-gd php-intl php-mbstring \
     php-soap php-xml php-xmlrpc php-zip -y 
 
-# # Install WordPress
-# RUN wget https://wordpress.org/latest.tar.gz \
-# &&  tar -xzvf latest.tar.gz \
-# &&  rm -rf lastest.tar.gz
-
 # Install WP cli
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar \
@@ -31,8 +26,4 @@ RUN chmod 777 ./entrypoint.sh
 
 EXPOSE 9000
 
-# Install dumb-init
-RUN apt-get install -y dumb-init
-
-# ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 ENTRYPOINT ["sh", "./entrypoint.sh"]

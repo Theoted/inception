@@ -27,10 +27,10 @@ exec-nginx:
 	docker exec -it nginx-container bash
 
 volumes:	
-			test -f /home/$(USER)/data/database || mkdir /home/$(USER)/data/database && \
-			chmod 777 /home/$(USER)/data/database
-			test -f /home/$(USER)/data/wordpress || mkdir /home/$(USER)/data/wordpress && \
-			chmod 777 /home/$(USER)/data/wordpress
+			test -d /home/$(USER)/data/database || mkdir /home/$(USER)/data/database && \
+			sudo chmod 777 /home/$(USER)/data/database
+			test -d /home/$(USER)/data/wordpress || mkdir /home/$(USER)/data/wordpress && \
+			sudo chmod 777 /home/$(USER)/data/wordpress
 			
 
 stop:

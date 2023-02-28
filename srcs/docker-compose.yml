@@ -3,6 +3,7 @@ version: '3.9'
 services:
   nginx:
     container_name: nginx-container
+    image: nginx
     build: requirements/nginx
     restart: always
     ports:
@@ -16,6 +17,7 @@ services:
   
   wordpress:
     container_name: wp-container
+    image: wordpress
     build: requirements/wordpress
     depends_on:
       - mariadb
@@ -29,6 +31,7 @@ services:
 
   mariadb:
     container_name: mariadb-container
+    image: mariadb
     build: requirements/mariadb
     restart: always
     networks:
